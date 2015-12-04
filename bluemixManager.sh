@@ -1,13 +1,15 @@
 #!/bin/bash
-#TODO: check if state is valid
 echo -e "\e[1;32mJohn's BlueMix App Startup/Shutdown Script!\e[0m"
 echo -e "\e[1mUsage: ./cfStartup.sh [org] [space] [start/stop] \e[0m"
 
+#assigning args to easily remembered names
 org=$1
 space=$2
 state=$3
 
-#Checking parameters
+###############################################################################
+#                         Checking Parameters 
+###############################################################################
 if [ -z "$org" ]; then
 	echo -e "\e[1;31mNo Parameters!\e[0m"
 	echo -e "\e[1mUsage: ./cfStartup.sh [org] [space] [start/stop] \e[0m"
@@ -30,7 +32,6 @@ if [ "$state" != 'start' ] && [ "$state" != 'stop' ]; then
 	echo -e "\e[1;31mFailure!\e[0m"
 	exit 1
 fi
-
 #failing if called with too many params
 if [ -n "$4" ]; then
 	echo -e "\e[1;31mpToo many parameters!\e[0m"
@@ -38,14 +39,18 @@ if [ -n "$4" ]; then
 	exit 1
 fi
 
-#Actual Work
+###############################################################################
+#                              Actual Work
+###############################################################################
 
+#Make temp dir
 if [ -d "cftemp" ]; then
 	echo ":| cftemp exists, which is weird, but is probably not an issue"
 else
 	mkdir cftemp
 fi
 cd cftemp
+
 
 cf target -o $org -s $space
 
